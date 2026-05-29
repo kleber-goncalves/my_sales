@@ -1,27 +1,27 @@
-# comando iniciais
+# Comandos iniciais
 - ``npm init -y``
 - ``npm i typescript ts-node-dev @types/node tsconfig-paths ts-node -D``
 - ``npx tsc --init --rootDir src --outDir build --esModuleInterop --resolveJsonModule --lib es6 --module commonjs --allowJs true --noImplicitAny true``
 
 ----
 
-# erros que derão durante o processo
+# Erros que derão durante o processo
 
 TypeScript não sabe o que é o console. Por padrão, o TypeScript não inclui as funções do Node.js (como console.log, process, etc.) no seu ambiente.
 
 simplificando eu não conseguia rodar um ``console.log``
 
-## para resolver
- 1. Abra o seu tsconfig.json.
+## Para resolver
+ 1. Abra o seu ``tsconfig.json``.
  2. Procure pela linha ``"types": []`` e mude para:
 - ``"types": ["node"]``
 
-Garanta que tem os tipos do Node instalados correndo este comando no terminal:
+Garanta que tem os tipos do Node instalados, se não rode este comando no terminal:
 - ``npm install -D @types/node``
 
 ---
 
-# Sobre o .editorconfing
+# Sobre o arquivo .editorconfing
 
 ```js
 root=true
@@ -58,11 +58,11 @@ O ``.editorconfig`` é um ficheiro que serve para padronizar a formatação do c
 
 ----
 
-# eslint
+# Sobre o ESLint
 
-comando: - ``npm i -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin``
+rode este comando no terminal: - ``npm i -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin``
 
-crir aquivo ``.eslintrc`` e colocar isso:
+crie o aquivo ``.eslintrc`` e coloque isso:
 ```js
 {
     "root": true,
@@ -79,7 +79,7 @@ crir aquivo ``.eslintrc`` e colocar isso:
 
 ```
 
-apos criar o arquivo ``.eslintrc`` crie o arquivo ``.eslintignore``, para o eslint não alterar os arquivos ou pastas adiconadas no ``.eslintignore``
+Após criar o arquivo ``.eslintrc`` crie o arquivo ``.eslintignore``, para o ESLint não alterar os arquivos ou pastas adicionadas no ``.eslintignore``
 
 ```js
 node_modules
@@ -90,16 +90,16 @@ build
 ```
 # erro
 
-A explicação acima é da versão antiga do eslint com isso eu tive que fazer algumas alteraçõs.
+A explicação acima é da versão antiga do ESLint com isso eu tive que fazer algumas alterações.
 
-apagar os arquivos:
+Apague os arquivos:
  - ``.eslintrc``
  - ``.eslintignore``
 
-e criar o arquivo:
+e crie o arquivo:
  - ``eslint.config.js``
 
-dentro dele adicone neste codigo :
+dentro dele adicione este codigo :
 
 ```js
 import eslint from "@eslint/js";
@@ -116,7 +116,7 @@ export default tseslint.config(
 
 ```
 
-No arquivo ``tsconfig`` adicone o codigo abaixo depois do ``compilerOptions``
+No arquivo ``tsconfig`` adicione o codigo abaixo depois do ``compilerOptions``
 
 ```js
    "include": [
@@ -129,7 +129,7 @@ No arquivo ``tsconfig`` adicone o codigo abaixo depois do ``compilerOptions``
     "eslint.config.js"
   ]
 ```
-e no ``package.json`` no comando ``lin`` mude para :
+e no ``package.json`` no comando ``lint`` mude para :
 ```js
     "lint": "eslint .",
 ```
