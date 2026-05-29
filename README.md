@@ -133,3 +133,20 @@ e no ``package.json`` no comando ``lin`` mude para :
 ```js
     "lint": "eslint .",
 ```
+----
+
+# Configuração do Ambiente de Desenvolvimento
+### Configuração do TypeScript
+Para melhorar a organização e facilitar as importações, configuramos o TypeScript com aliases:
+
+No ``tsconfig.json``, configure:
+```js
+"paths": {
+          "@/*": ["./src/*"],
+          "@modules/*": ["./src/modules/*"],
+          "@shared/*": ["./src/shared/*"]
+      },
+```
+No package.json mude para:
+``"dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/http/server.ts"``
+
