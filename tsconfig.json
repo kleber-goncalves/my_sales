@@ -46,5 +46,15 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "noImplicitAny": true,
-  }
+  },
+
+   "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist",
+    "eslint.config.js"
+  ]
 }
