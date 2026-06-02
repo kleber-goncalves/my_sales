@@ -11,6 +11,8 @@
       "target": "esnext",
       "types": ["node"],
       "lib": ["es6"],
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
       // For nodejs:
       // "lib": ["esnext"],
       // "types": ["node"],
@@ -30,6 +32,7 @@
       // Stricter Typechecking Options
       "noUncheckedIndexedAccess": true,
       "exactOptionalPropertyTypes": true,
+      "strictPropertyInitialization": true,
 
       // Style Options
       // "noImplicitReturns": true,

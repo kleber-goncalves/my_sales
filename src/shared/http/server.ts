@@ -1,17 +1,30 @@
+import "reflect-metadata";
+import "express-async-errors";
 import express from "express";
-import routes from "./routes";
 import cors from "cors";
-import 'express-async-errors';
+
+import routes from "./routes";
 import ErrorHandleMiddleware from "../middlewares/ErrorHandleMiddleware";
+import {AppDataSource} from "../typeorm/data-source";
 
-const app = express();
+AppDataSource.initialize()
+    .then(async () => {
+        const app = express();
 
-app.use(cors());
-app.use(express.json());
+        app.use(cors());
+        app.use(express.json());
 
-app.use(routes);
-app.use(ErrorHandleMiddleware.haddleError);
+        app.use(routes);
+        app.use(ErrorHandleMiddleware.haddleError);
 
-app.listen(3333, () => {
-    console.log("Server is running on port 3333")
-});
+        console.log("Database connected");
+
+        app.listen(5432, () => {
+            console.log("Server is running on port 5432");
+        });
+
+    })
+    .catch((error) => {
+        console.error("failed to connect to database", error);
+    });
+
