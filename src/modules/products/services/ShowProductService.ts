@@ -8,6 +8,12 @@ interface IShowProduct {
 
 export default class ShowProductService {
     async execute({ id }: IShowProduct): Promise<Product> {
+
+        // verifica se o id digitado em valido em Number
+        if (isNaN(Number(id))) {
+            throw new AppError("O formato do ID fornecido é inválido", 400);
+        }
+
         const product = await productsRepositories.findById(id);
 
         if (!product) {

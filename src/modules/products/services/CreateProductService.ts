@@ -18,6 +18,13 @@ export default class CreateProductService {
             throw new AppError("O produto com esse nome ja existe", 409);
         }
 
+        if (quantity < 0 || price < 0) {
+            throw new AppError(
+                "Os campos price e quantity são obrigatórios e devem ser válidos",
+                400,
+            );
+        }
+
         // cria o produto no banco de dados com os dados passados
         const product = productsRepositories.create({
             name,

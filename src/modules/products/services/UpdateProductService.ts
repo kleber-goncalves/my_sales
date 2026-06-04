@@ -16,6 +16,11 @@ export default class UpdateProductService {
         price,
         quantity,
     }: IUpdateProduct): Promise<Product> {
+        // verifica se o id digitado em valido em Number
+        if (isNaN(Number(id))) {
+            throw new AppError("O formato do ID fornecido é inválido", 400);
+        }
+
         const product = await productsRepositories.findById(id);
 
         if (!product) {
@@ -24,17 +29,24 @@ export default class UpdateProductService {
 
         const productExists = await productsRepositories.findByName(name);
 
-        if (productExists) {
+        if (productExists && productExists.id !== id) {
             throw new AppError("O produto com esse nome ja existe", 409);
         }
 
-       // atualiza os dados do produto no banco de dados com os dados passados
-       product.name = name;
-       product.price = price;
-       product.quantity = quantity;
+        if (quantity < 0 || price < 0) {
+            throw new AppError(
+                "Os campos price e quantity são obrigatórios e devem ser válidos",
+                400,
+            );
+        }
 
-       await productsRepositories.save(product);
+        // atualiza os dados do produto no banco de dados com os dados passados
+        product.name = name;
+        product.price = price;
+        product.quantity = quantity;
 
-       return product;
+        await productsRepositories.save(product);
+
+        return product;
     }
 }
