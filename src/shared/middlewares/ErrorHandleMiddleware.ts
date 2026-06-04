@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import AppError from "../errors/AppError";
 
 export default class ErrorHandleMiddleware {
-    public static haddleError(
+    public static handleError(
         error: Error,
         _req: Request,
         res: Response,
@@ -20,6 +20,5 @@ export default class ErrorHandleMiddleware {
             type: "error",
             message: "Internal server error",
         });
-
     }
 }

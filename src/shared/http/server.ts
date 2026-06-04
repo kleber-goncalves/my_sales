@@ -5,26 +5,31 @@ import cors from "cors";
 
 import routes from "./routes";
 import ErrorHandleMiddleware from "../middlewares/ErrorHandleMiddleware";
-import {AppDataSource} from "../typeorm/data-source";
+import { AppDataSource } from "../typeorm/data-source";
 
 AppDataSource.initialize()
     .then(async () => {
+        console.log("Database connected successfully");
+        if (!process.env.SERVER_PORT) {
+            throw new Error(
+                "ERRO CRÍTICO: A variável de ambiente SERVER_PORT não foi definida no arquivo .env!",
+            );
+        }
+
         const app = express();
+        const SERVER_PORT = Number(process.env.SERVER_PORT);
 
         app.use(cors());
         app.use(express.json());
 
         app.use(routes);
-        app.use(ErrorHandleMiddleware.haddleError);
+        app.use(ErrorHandleMiddleware.handleError);
 
-        console.log("Database connected");
-
-        app.listen(5432, () => {
-            console.log("Server is running on port 5432");
+        app.listen(SERVER_PORT, () => {
+            console.log("Server is running on port " + SERVER_PORT);
         });
-
     })
     .catch((error) => {
-        console.error("failed to connect to database", error);
+        console.error("Application failed to start:", error.message || error);
+        process.exit(1); // Força o Node.js a encerrar o processo imediatamente
     });
-
