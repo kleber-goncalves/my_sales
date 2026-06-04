@@ -8,8 +8,8 @@ import DeleteProductService from "../services/DeleteProductService";
 
 export default class ProductsControllers {
     async index(request: Request, response: Response): Promise<Response> {
-        const listProductsService = new ListProductService();
-        const products = await listProductsService.execute();
+        const listProducts = new ListProductService();
+        const products = await listProducts.execute();
         return response.json(products);
     }
 
@@ -20,8 +20,8 @@ export default class ProductsControllers {
             throw new AppError("ID do produto inválido ou não fornecido", 400);
         }
 
-        const showProductService = new ShowProductService();
-        const product = await showProductService.execute({ id });
+        const showProduct = new ShowProductService();
+        const product = await showProduct.execute({ id });
         return response.json(product);
     }
 
@@ -41,8 +41,8 @@ export default class ProductsControllers {
             );
         }
 
-        const createProductService = new CreateProductService();
-        const product = await createProductService.execute({
+        const createProduct = new CreateProductService();
+        const product = await createProduct.execute({
             name,
             price,
             quantity,
@@ -70,8 +70,8 @@ export default class ProductsControllers {
             );
         }
 
-        const updateProductService = new UpdateProductService();
-        const product = await updateProductService.execute({
+        const updateProduct = new UpdateProductService();
+        const product = await updateProduct.execute({
             id,
             name,
             price,
@@ -88,8 +88,8 @@ export default class ProductsControllers {
             throw new AppError("ID do produto inválido ou não fornecido", 400);
         }
 
-        const deleteProductService = new DeleteProductService();
-        await deleteProductService.execute({ id });
+        const deleteProduct = new DeleteProductService();
+        await deleteProduct.execute({ id });
 
         return response.status(204).send([]);
     }
