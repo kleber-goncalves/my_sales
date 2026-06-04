@@ -150,3 +150,10 @@ No ``tsconfig.json``, configure:
 No package.json mude para:
 ``"dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/http/server.ts"``
 
+# para criar uma migration usando o pacote cross-var rode no terminal:
+
+``npm run migration:create --name=exempleNameMigration``
+
+# Para aplicar o migration no banco de dados rode este comando no terminal:
+
+``npm run migration:run``
