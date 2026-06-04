@@ -1,6 +1,10 @@
 import { Router } from "express";
-import ProductsControllers from './../controllers/ProductsControllers';
-
+import ProductsControllers from "./../controllers/ProductsControllers";
+import {
+    createProductSchema,
+    idParamsValidation,
+    UpdateProductSchema,
+} from "../schemas/ProductSchemas";
 
 const productsRoutes = Router();
 const productsControllers = new ProductsControllers();
@@ -9,15 +13,15 @@ const productsControllers = new ProductsControllers();
 productsRoutes.get("/", productsControllers.index);
 
 // Rota para buscar um produto pelo id
-productsRoutes.get("/:id", productsControllers.show);
+productsRoutes.get("/:id", idParamsValidation, productsControllers.show);
 
 // Rota para crear um produto
-productsRoutes.post("/", productsControllers.create);
+productsRoutes.post("/", createProductSchema, productsControllers.create);
 
-// para atualizar um produto
-productsRoutes.put("/:id", productsControllers.update);
+// Rota para atualizar um produto
+productsRoutes.put("/:id", UpdateProductSchema, productsControllers.update);
 
 // Rota para deletar um produto
-productsRoutes.delete("/:id", productsControllers.delete);
+productsRoutes.delete("/:id", idParamsValidation, productsControllers.delete);
 
 export default productsRoutes;

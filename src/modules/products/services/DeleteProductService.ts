@@ -8,6 +8,7 @@ interface IDeleteProduct {
 // Porque: 'Promise<void>', Porque apos voce apagar o produto ele nao retorna nada
 export default class DeleteProductService {
     async execute({ id }: IDeleteProduct): Promise<void> {
+
         if (isNaN(Number(id))) {
             throw new AppError("O formato do ID fornecido é inválido", 400);
         }
