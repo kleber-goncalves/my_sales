@@ -5,6 +5,7 @@ import {
     idParamsValidation,
     UpdateProductSchema,
 } from "../schemas/ProductSchemas";
+import AuthMiddleware from "@/shared/middlewares/authMiddleware";
 
 const productsRoutes = Router();
 const productsControllers = new ProductsControllers();
@@ -15,13 +16,29 @@ productsRoutes.get("/", productsControllers.index);
 // Rota para buscar um produto pelo id
 productsRoutes.get("/:id", idParamsValidation, productsControllers.show);
 
-// Rota para crear um produto
-productsRoutes.post("/", createProductSchema, productsControllers.create);
+// Rota para criar um produto
+productsRoutes.post(
+    "/",
+    AuthMiddleware.execute,
+    createProductSchema,
+    productsControllers.create,
+);
 
 // Rota para atualizar um produto
-productsRoutes.put("/:id", UpdateProductSchema, productsControllers.update);
+productsRoutes.put(
+    "/:id",
+    AuthMiddleware.execute,
+    idParamsValidation,
+    UpdateProductSchema,
+    productsControllers.update,
+);
 
 // Rota para deletar um produto
-productsRoutes.delete("/:id", idParamsValidation, productsControllers.delete);
+productsRoutes.delete(
+    "/:id",
+    AuthMiddleware.execute,
+    idParamsValidation,
+    productsControllers.delete,
+);
 
 export default productsRoutes;
