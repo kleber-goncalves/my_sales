@@ -2,7 +2,8 @@ import productsRoutes from "@/modules/products/routes/ProductRoutes";
 import avatarRoutes from "@/modules/users/routes/AvatarRoutes";
 import sessionsRoutes from "@/modules/users/routes/SessionRoutes";
 import usersRoutes from "@/modules/users/routes/UserRoutes";
-import { Router } from "express";
+import express, { Router } from "express";
+import  uploadConfig  from '@/config/upload';
 
 const routes = Router();
 
@@ -14,5 +15,8 @@ routes.use("/products", productsRoutes);
 routes.use("/users", usersRoutes);
 routes.use("/sessions", sessionsRoutes);
 routes.use("/avatar", avatarRoutes);
+
+// mostar no navegar a imagem
+routes.use("/files", express.static(uploadConfig.directory));
 
 export default routes;
