@@ -4,6 +4,7 @@ import sessionsRoutes from "@/modules/users/routes/SessionRoutes";
 import usersRoutes from "@/modules/users/routes/UserRoutes";
 import express, { Router } from "express";
 import  uploadConfig  from '@/config/upload';
+import passwordRoutes from "@/modules/users/routes/PasswordRoutes";
 
 const routes = Router();
 
@@ -18,5 +19,7 @@ routes.use("/avatar", avatarRoutes);
 
 // mostar no navegar a imagem
 routes.use("/files", express.static(uploadConfig.directory));
+
+routes.use("/password", passwordRoutes);
 
 export default routes;
