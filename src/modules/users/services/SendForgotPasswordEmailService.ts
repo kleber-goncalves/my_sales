@@ -1,6 +1,7 @@
 import AppError from "@/shared/errors/AppError";
 import { usersRepositories } from "../database/repositories/UsersRepositories";
 import { userTokensRepositories } from "../database/repositories/UserTokensRepositories";
+import { sendEmail } from "@/config/email";
 
 interface IForgotPassword {
     email: string;
@@ -16,6 +17,23 @@ export default class SendForgotPasswordEmailService {
 
         const token = await userTokensRepositories.generate(user.id);
 
-        console.log(token)
+        sendEmail({
+            to: user.email,
+            subject: "Recuperação de senha",
+            body: `
+                <html>
+                    <head>
+                        <style>
+                            body { font-family: Arial, sans-serif; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>Verificação de Redefinição de Senha</h1>
+                        <h3>Caro ${user.name},</h3>
+                        <p>Recupere sua senha com este token de redefinição: ${token?.token}</p>
+                    </body>
+                </html>
+            `,
+        });
     }
 }

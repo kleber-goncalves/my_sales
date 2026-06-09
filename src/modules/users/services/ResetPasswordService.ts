@@ -17,7 +17,7 @@ export default class ResetPasswordService {
             throw new AppError("Token not found", 404);
         }
 
-        const user = await usersRepositories.findById(userToken.id);
+        const user = await usersRepositories.findById(userToken.user_id);
 
         if (!user) {
             throw new AppError("User not exists", 404);
@@ -29,7 +29,7 @@ export default class ResetPasswordService {
         const compareDate = addHours(tokenCreatedAt, 2)
 
         // Verifica se o token expirou ou nao e se nao expirou ele atualiza a senha do usuario
-        if(isAfter(Date.now(), compareDate)) {
+        if(isAfter(new Date(), compareDate)) {
             throw new AppError("Token expired", 401)
         }
 
