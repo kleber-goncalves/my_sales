@@ -5,6 +5,7 @@ import usersRoutes from "@/modules/users/routes/UserRoutes";
 import express, { Router } from "express";
 import  uploadConfig  from '@/config/upload';
 import passwordRoutes from "@/modules/users/routes/PasswordRoutes";
+import profileRouter from "@/modules/users/routes/ProfileRoutes";
 
 const routes = Router();
 
@@ -21,5 +22,7 @@ routes.use("/avatar", avatarRoutes);
 routes.use("/files", express.static(uploadConfig.directory));
 
 routes.use("/password", passwordRoutes);
+
+routes.use("/profiles", profileRouter);
 
 export default routes;
