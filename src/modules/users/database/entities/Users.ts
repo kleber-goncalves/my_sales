@@ -1,3 +1,4 @@
+import { Exclude, Expose } from "class-transformer";
 import {
     Column,
     CreateDateColumn,
@@ -5,7 +6,6 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from "typeorm";
-
 
 @Entity("users")
 export class User {
@@ -19,6 +19,7 @@ export class User {
     email!: string;
 
     @Column()
+    @Exclude()
     password!: string;
 
     @Column()
@@ -29,4 +30,13 @@ export class User {
 
     @UpdateDateColumn()
     updated_at!: Date;
+
+    // Metodo para retornar o avatar_url com a url completa da imagem no servidor
+    @Expose({ name: "avatar_url" })
+    getAvatarUrl(): string | null {
+        if (!this.avatar) {
+            return null;
+        }
+        return `${process.env.APP_API_URL}/files/${this.avatar}`;
+    }
 }

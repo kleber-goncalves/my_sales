@@ -2,13 +2,14 @@ import { Request, Response } from "express";
 import ListUsersService from "../services/ListUsersService";
 import CreateUserService from "../services/CreateUserService";
 import AppError from "@/shared/errors/AppError";
+import { instanceToInstance } from "class-transformer";
 
 export default class UsersControllers {
     // Controller de listar todos os usuarios
     async index(request: Request, response: Response): Promise<Response> {
         const listUsers = new ListUsersService();
         const users = await listUsers.execute();
-        return response.json(users);
+        return response.json(instanceToInstance(users));
     }
 
     // Controller de criar um novo usuario
@@ -31,6 +32,6 @@ export default class UsersControllers {
 
         const createUser = new CreateUserService();
         const user = await createUser.execute({ name, email, password });
-        return response.json(user);
+        return response.json(instanceToInstance(user));
     }
 }
