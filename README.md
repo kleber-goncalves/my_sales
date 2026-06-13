@@ -157,3 +157,18 @@ No package.json mude para:
 # Para aplicar o migration no banco de dados rode este comando no terminal:
 
 ``npm run migration:run``
+
+
+{
+    "customer_id": "1",
+    "products": [
+        {
+            "id": 1,
+            "quantity": 4
+        },
+        {
+            "id": 3,
+            "quantity": 2
+        }
+    ]
+}

@@ -7,6 +7,7 @@ import  uploadConfig  from '@/config/upload';
 import passwordRoutes from "@/modules/users/routes/PasswordRoutes";
 import profileRouter from "@/modules/users/routes/ProfileRoutes";
 import customersRoutes from "@/modules/customers/routes/CustomerRoutes";
+import ordersRoutes from "@/modules/orders/routers/OdersRoutes";
 
 const routes = Router();
 
@@ -27,5 +28,7 @@ routes.use("/password", passwordRoutes);
 routes.use("/profiles", profileRouter);
 
 routes.use("/customers", customersRoutes);
+
+routes.use("/orders", ordersRoutes);
 
 export default routes;
