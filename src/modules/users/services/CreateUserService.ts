@@ -2,6 +2,7 @@ import AppError from "@/shared/errors/AppError";
 import { User } from "../database/entities/Users";
 import { usersRepositories } from "../database/repositories/UsersRepositories";
 import { hash } from "bcrypt";
+import RedisCache from "@/shared/cache/RedisCache";
 
 interface ICreateUser {
     name: string;
@@ -12,6 +13,8 @@ interface ICreateUser {
 export default class CreateUserService {
     async execute({ name, email, password }: ICreateUser): Promise<User> {
         const emailExists = await usersRepositories.findByEmail(email);
+        const redisCache = new RedisCache();
+
 
         if (emailExists) {
             throw new AppError("O email ja existe", 409);
@@ -28,6 +31,9 @@ export default class CreateUserService {
         console.log(user);
 
         await usersRepositories.save(user);
+
+        await redisCache.invalidate("api-mysales-USER-LIST");
+
         return user;
     }
 }

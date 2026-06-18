@@ -1,6 +1,7 @@
 import AppError from "@/shared/errors/AppError";
 import { Product } from "../database/entities/Products";
 import { productsRepositories } from "../database/repositories/ProductsRepositories";
+import RedisCache from "@/shared/cache/RedisCache";
 
 // interface para receber os dados do produto para ser criado, com os tipos de dados corretos
 interface ICreateProduct {
@@ -13,6 +14,8 @@ interface ICreateProduct {
 export default class CreateProductService {
     async execute({ name, price, quantity }: ICreateProduct): Promise<Product> {
         const productExists = await productsRepositories.findByName(name);
+        const redisCache = new RedisCache();
+
 
         if (productExists) {
             throw new AppError("O produto com esse nome ja existe", 409);
@@ -36,6 +39,10 @@ export default class CreateProductService {
 
         // salva no banco de dados o produto criado
         await productsRepositories.save(product);
+
+        // limpa o cache da lista de produtos do redis com a chave 'api-mysales-PRODUCT-LIST'
+        await redisCache.invalidate("api-mysales-PRODUCT-LIST");
+
 
         // retorna o produto criado
         return product;

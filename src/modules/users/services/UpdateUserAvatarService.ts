@@ -4,6 +4,7 @@ import { usersRepositories } from "../database/repositories/UsersRepositories";
 import path from "node:path";
 import uploadConfig from "@/config/upload";
 import fs from "fs";
+import RedisCache from "@/shared/cache/RedisCache";
 
 interface IUpdateUserAvatar {
     userId: number;
@@ -15,6 +16,7 @@ export default class UpdateUserAvatarService {
         userId,
         avatarFileName,
     }: IUpdateUserAvatar): Promise<User> {
+        const redisCache = new RedisCache();
         const user = await usersRepositories.findById(userId);
 
         if (!user) {
@@ -36,6 +38,9 @@ export default class UpdateUserAvatarService {
 
         user.avatar = avatarFileName;
         await usersRepositories.save(user);
+
+        await redisCache.invalidate("api-mysales-USER-LIST");
+
 
         return user;
     }

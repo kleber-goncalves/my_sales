@@ -1,6 +1,7 @@
 import AppError from "@/shared/errors/AppError";
 import { Product } from "../database/entities/Products";
 import { productsRepositories } from "../database/repositories/ProductsRepositories";
+import RedisCache from "@/shared/cache/RedisCache";
 
 interface IUpdateProduct {
     id: string;
@@ -16,6 +17,8 @@ export default class UpdateProductService {
         price,
         quantity,
     }: IUpdateProduct): Promise<Product> {
+        const redisCache = new RedisCache();
+
         // verifica se o id digitado em valido em Number
         if (isNaN(Number(id))) {
             throw new AppError("O formato do ID fornecido é inválido", 400);
@@ -46,6 +49,9 @@ export default class UpdateProductService {
         product.quantity = quantity;
 
         await productsRepositories.save(product);
+
+        // invalida o cache com a chave 'api-mysales-PRODUCT-LIST' para atualizar o cache
+        await redisCache.invalidate("api-mysales-PRODUCT-LIST");
 
         return product;
     }

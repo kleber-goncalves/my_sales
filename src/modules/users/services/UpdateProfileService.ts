@@ -2,6 +2,7 @@ import AppError from "@/shared/errors/AppError";
 import { User } from "../database/entities/Users";
 import { usersRepositories } from "../database/repositories/UsersRepositories";
 import { compare, hash } from "bcrypt";
+import RedisCache from "@/shared/cache/RedisCache";
 
 interface IUpdateProfile {
     user_id: number;
@@ -19,6 +20,7 @@ export default class UpdateProfileService {
         password,
         old_password,
     }: IUpdateProfile): Promise<User> {
+        const redisCache = new RedisCache();
         const user = await usersRepositories.findById(user_id);
 
         if (!user) {
@@ -54,6 +56,9 @@ export default class UpdateProfileService {
         }
 
         await usersRepositories.save(user);
+
+        await redisCache.invalidate("api-mysales-USER-LIST");
+
         return user;
     }
 }
