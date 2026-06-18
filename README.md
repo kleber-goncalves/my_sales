@@ -172,3 +172,9 @@ No package.json mude para:
         }
     ]
 }
+
+----
+
+# O Ratelimiter
+
+O Ratelimiter limita ex: quantas vezes uma pessoa pode enviar uma requisisao, ex: clicar no button enviar, se ele clicar 5 vezes em menos de 5sg o site trava ou bloqueia o button, depende do jeito que voce configurar.
