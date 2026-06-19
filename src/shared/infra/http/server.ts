@@ -6,9 +6,9 @@ import cors from "cors";
 import { errors } from "celebrate";
 
 import routes from "./routes";
-import ErrorHandleMiddleware from "../middlewares/ErrorHandleMiddleware";
+import ErrorHandleMiddleware from "../../middlewares/ErrorHandleMiddleware";
 import { AppDataSource } from "../typeorm/data-source";
-import rateLimiter from "../middlewares/rateLimiter";
+import rateLimiter from "../../middlewares/rateLimiter";
 
 AppDataSource.initialize()
     .then(async () => {

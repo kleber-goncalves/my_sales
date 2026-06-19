@@ -1,8 +1,7 @@
-import { AppDataSource } from "@/shared/typeorm/data-source";
+import { AppDataSource } from "@/shared/infra/typeorm/data-source";
 import { User } from "../entities/Users";
 
 export const usersRepositories = AppDataSource.getRepository(User).extend({
-
     // Encontra um Usuario pelo nome
     findByName(name: string): Promise<User | null> {
         return this.findOneBy({ name });
@@ -16,5 +15,5 @@ export const usersRepositories = AppDataSource.getRepository(User).extend({
     // Encontra um Usuario pelo email
     findByEmail(email: string): Promise<User | null> {
         return this.findOneBy({ email });
-    }
+    },
 });

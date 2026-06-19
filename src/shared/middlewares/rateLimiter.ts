@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { RateLimiterRedis } from "rate-limiter-flexible";
+import { RateLimiterRedis, RateLimiterMemory } from "rate-limiter-flexible";
 import { createClient } from "redis";
 import AppError from "../errors/AppError";
 
@@ -15,6 +15,11 @@ const limiter = new RateLimiterRedis({
     keyPrefix: "ratelimit",
     points: 5,
     duration: 5,
+
+    insuranceLimiter: new RateLimiterMemory({
+        points: 5,
+        duration: 5,
+    }),
 });
 
 export default async function rateLimiter(
@@ -25,8 +30,11 @@ export default async function rateLimiter(
     try {
         await limiter.consume(request.ip as string);
         return next();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-        throw new AppError("Too many requests", 429);
+        if (err instanceof Error) {
+            return next();
+        }
+        return next(new AppError("Too many requests", 429));
     }
 }

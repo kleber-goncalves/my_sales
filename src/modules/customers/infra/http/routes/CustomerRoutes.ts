@@ -1,11 +1,8 @@
 import { Router } from "express";
-import AuthMiddleware from "@/shared/middlewares/authMiddleware";
 import CustomersControllers from "../controllers/CustumersControllers";
-import {
-    createCustomerSchema,
-    idParamsValidation,
-    updateCustomerSchema,
-} from "../schemas/CustomerSchemas";
+import AuthMiddleware from "@/shared/middlewares/authMiddleware";
+import { createCustomerSchema, idParamsValidation, updateCustomerSchema } from "../schemas/CustomerSchemas";
+
 
 const customersRoutes = Router();
 const customersControllers = new CustomersControllers();
