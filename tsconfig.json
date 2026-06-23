@@ -1,49 +1,27 @@
 {
-    // Visit https://aka.ms/tsconfig to read more about this file
     "compilerOptions": {
-        // File Layout
-        "rootDir": "src",
+        "ignoreDeprecations": "6.0",
+        "rootDir": "./",
         "outDir": "build",
-
-        // Environment Settings
-        // See also https://aka.ms/tsconfig/module
         "module": "commonjs",
+        "moduleResolution": "node",
         "target": "esnext",
-        "types": ["node"],
+        "types": ["node", "jest"],
         "typeRoots": ["node_modules/@types", "src/@types"],
-        "lib": ["es6"],
+        "lib": ["esnext"],
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        // For nodejs:
-        // "lib": ["esnext"],
-        // "types": ["node"],
-        // and npm install -D @types/node
-
         "paths": {
             "@/*": ["./src/*"],
             "@modules/*": ["./src/modules/*"],
             "@shared/*": ["./src/shared/*"]
         },
-
-        // Other Outputs
         "sourceMap": true,
         "declaration": true,
         "declarationMap": true,
-
-        // Stricter Typechecking Options
         "noUncheckedIndexedAccess": true,
         "exactOptionalPropertyTypes": true,
         "strictPropertyInitialization": true,
-
-        // Style Options
-        // "noImplicitReturns": true,
-        // "noImplicitOverride": true,
-        // "noUnusedLocals": true,
-        // "noUnusedParameters": true,
-        // "noFallthroughCasesInSwitch": true,
-        // "noPropertyAccessFromIndexSignature": true,
-
-        // Recommended Options
         "strict": true,
         "jsx": "react-jsx",
         "verbatimModuleSyntax": false,

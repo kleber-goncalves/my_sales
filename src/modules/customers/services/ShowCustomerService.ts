@@ -1,13 +1,18 @@
 import AppError from "@/shared/errors/AppError";
 import { Customer } from "../infra/database/entities/Customer";
 import { ICustomersRepository } from "../domain/repositories/ICustomersRepositories";
+import { inject, injectable } from "tsyringe";
 
 interface IShowCustomer {
     id: number;
 }
 
+@injectable()
 export default class ShowCustomerService {
-    constructor(private readonly customerRepository: ICustomersRepository) {}
+    constructor(
+        @inject("CustomersRepository")
+        private readonly customerRepository: ICustomersRepository
+    ) { }
 
 
     async execute({ id }: IShowCustomer): Promise<Customer> {

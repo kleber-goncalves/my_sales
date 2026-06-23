@@ -5,6 +5,8 @@ import express from "express";
 import cors from "cors";
 import { errors } from "celebrate";
 
+import "@shared/container";
+
 import routes from "./routes";
 import ErrorHandleMiddleware from "../../middlewares/ErrorHandleMiddleware";
 import { AppDataSource } from "../typeorm/data-source";
