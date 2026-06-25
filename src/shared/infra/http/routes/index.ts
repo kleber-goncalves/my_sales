@@ -1,11 +1,11 @@
 import productsRoutes from "@/modules/products/routes/ProductRoutes";
-import avatarRoutes from "@/modules/users/routes/AvatarRoutes";
-import sessionsRoutes from "@/modules/users/routes/SessionRoutes";
-import usersRoutes from "@/modules/users/routes/UserRoutes";
+import avatarRoutes from "@/modules/users/infra/http/routes/AvatarRoutes";
+import sessionsRoutes from "@/modules/users/infra/http/routes/SessionRoutes";
+import usersRoutes from "@/modules/users/infra/http/routes/UserRoutes";
 import express, { Router } from "express";
 import uploadConfig from "@/config/upload";
-import passwordRoutes from "@/modules/users/routes/PasswordRoutes";
-import profileRouter from "@/modules/users/routes/ProfileRoutes";
+import passwordRoutes from "@/modules/users/infra/http/routes/PasswordRoutes";
+import profileRouter from "@/modules/users/infra/http/routes/ProfileRoutes";
 import customersRoutes from "@/modules/customers/infra/http/routes/CustomerRoutes";
 import ordersRoutes from "@/modules/orders/routers/OdersRoutes";
 

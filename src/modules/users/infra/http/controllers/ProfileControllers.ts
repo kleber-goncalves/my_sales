@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import UpdateProfileService from "../services/UpdateProfileService";
-import ShowProfileService from "../services/ShowProfileService";
+import UpdateProfileService from "../../../services/UpdateProfileService";
+import ShowProfileService from "../../../services/ShowProfileService";
 
 export default class ProfileControllers {
-
     async show(request: Request, response: Response): Promise<Response> {
         const showProfile = new ShowProfileService();
         const user_id = Number(request.user.id);
@@ -12,7 +11,6 @@ export default class ProfileControllers {
     }
 
     async execute(request: Request, response: Response): Promise<Response> {
-
         const user_id = Number(request.user.id);
         const { name, email, password, old_password } = request.body;
 

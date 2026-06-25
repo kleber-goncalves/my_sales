@@ -15,6 +15,9 @@ const config: JestConfigWithTsJest = {
         "^@/(.*)$": "<rootDir>/src/$1",
     },
 
+    // ADICIONE ESTA LINHA: Carrega o mock da uuid antes de qualquer spec rodar
+    setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+
     preset: "ts-jest",
     testEnvironment: "node",
     testMatch: ["**/*.spec.ts"],

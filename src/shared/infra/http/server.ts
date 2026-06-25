@@ -8,9 +8,9 @@ import { errors } from "celebrate";
 import "@shared/container";
 
 import routes from "./routes";
-import ErrorHandleMiddleware from "../../middlewares/ErrorHandleMiddleware";
 import { AppDataSource } from "../typeorm/data-source";
 import rateLimiter from "../../middlewares/rateLimiter";
+import ErrorHandleMiddleware from "@/shared/middlewares/ErrorHandleMiddleware";
 
 AppDataSource.initialize()
     .then(async () => {

@@ -1,40 +1,38 @@
-import AppError from "@/shared/errors/AppError";
-import { User } from "../database/entities/Users";
-import { usersRepositories } from "../database/repositories/UsersRepositories";
-import { compare } from "bcrypt";
-import { sign } from "jsonwebtoken";
+import AppError from '@shared/errors/AppError';
+import { compare } from 'bcrypt';
+import { sign } from 'jsonwebtoken';
+import 'dotenv/config';
+import 'reflect-metadata';
+import { inject, injectable } from 'tsyringe';
+import { IUsersRepository } from '../domain/repositories/IUserRepositories';
+import { User } from '../infra/database/entities/Users';
 
-interface ISessionUser {
-    email: string;
-    password: string;
+interface IRequest {
+  email: string;
+  password: string;
 }
 
-interface ISessionResponse {
-    user: User;
-    token: string;
+interface IResponse {
+  user: User;
+  token: string;
 }
-
-export default class SessionUserService {
-    async execute({
-        email,
-        password,
-    }: ISessionUser): Promise<ISessionResponse> {
-        const user = await usersRepositories.findByEmail(email);
+@injectable()
+class SessionUserService {
+    constructor(
+        @inject("UsersRepository")
+        private usersRepository: IUsersRepository,
+    ) {}
+    public async execute({ email, password }: IRequest): Promise<IResponse> {
+        const user = await this.usersRepository.findByEmail(email);
 
         if (!user) {
-            throw new AppError("Email ou senha incorretos", 401);
+            throw new AppError("Incorrect email/password combination.", 401);
         }
 
         const passwordConfirmed = await compare(password, user.password);
 
         if (!passwordConfirmed) {
-            throw new AppError("Email ou senha incorretos", 401);
-        }
-
-        if (!process.env.APP_SECRET) {
-            throw new Error(
-                "ERRO CRÍTICO: A variável ambiente APP_SECRET não foi configurada corretamente no arquivo .env!",
-            );
+            throw new AppError("Incorrect email/password combination.", 401);
         }
 
         const token = sign({}, process.env.APP_SECRET as string, {
@@ -48,3 +46,5 @@ export default class SessionUserService {
         };
     }
 }
+
+export default SessionUserService;
