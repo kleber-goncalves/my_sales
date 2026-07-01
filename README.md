@@ -1,180 +1,141 @@
-# Comandos iniciais
-- ``npm init -y``
-- ``npm i typescript ts-node-dev @types/node tsconfig-paths ts-node -D``
-- ``npx tsc --init --rootDir src --outDir build --esModuleInterop --resolveJsonModule --lib es6 --module commonjs --allowJs true --noImplicitAny true``
+# My Sales
 
-----
+Este projeto é uma API backend desenvolvida para fins de estudo, com foco em construir uma aplicação de gestão de vendas utilizando Node.js, TypeScript e boas práticas de arquitetura. Ele foi criado com o objetivo de aprender na prática como funciona o desenvolvimento de sistemas backend modernos, desde a criação de rotas e serviços até autenticação, validação, banco de dados, cache, testes e organização de código.
 
-# Erros que derão durante o processo
+O projeto também faz parte do contexto de estudos em parceria com a escola DNC, onde a ideia é aplicar conceitos reais de desenvolvimento e compreender como diferentes ferramentas se conectam para formar uma aplicação completa.
 
-TypeScript não sabe o que é o console. Por padrão, o TypeScript não inclui as funções do Node.js (como console.log, process, etc.) no seu ambiente.
+## O que é o projeto?
 
-simplificando eu não conseguia rodar um ``console.log``
+O My Sales é uma aplicação voltada para a gestão de vendas e operações comerciais. A API permite:
 
-## Para resolver
- 1. Abra o seu ``tsconfig.json``.
- 2. Procure pela linha ``"types": []`` e mude para:
-- ``"types": ["node"]``
+- cadastro e autenticação de usuários;
+- gerenciamento de clientes;
+- cadastro e controle de produtos;
+- criação de pedidos;
+- upload de avatar do usuário;
+- recuperação de senha por e-mail;
+- proteção contra excesso de requisições (rate limiting);
+- uso de cache para melhorar desempenho;
+- testes automatizados para validar o comportamento da aplicação.
 
-Garanta que tem os tipos do Node instalados, se não rode este comando no terminal:
-- ``npm install -D @types/node``
+## Objetivo do projeto
 
----
+O principal objetivo deste projeto é servir como base de aprendizado para quem está iniciando no desenvolvimento backend. A proposta é estudar como estruturar uma API de forma organizada, separando responsabilidades em módulos, aplicando padrões de projeto e utilizando recursos que aparecem com frequência no mercado.
 
-# Sobre o arquivo .editorconfing
+## Estrutura geral do projeto
 
-```js
-root=true
+A aplicação foi organizada em módulos para deixar o código mais claro e escalável. Alguns dos principais módulos são:
 
-[*]
-indent_style = space
-indent_size = 4
-charset = utf-8
-trim_trailing_whitespace = true
-insert_final_newline = true
-end_of_line = lf
+- users: autenticação, usuários e perfil;
+- customers: cadastro e gestão de clientes;
+- products: cadastro e controle de produtos;
+- orders: criação e visualização de pedidos;
+- shared: componentes reutilizáveis, middlewares, erros, container de dependências e infraestrutura.
 
-```
-O ``.editorconfig`` é um ficheiro que serve para padronizar a formatação do código entre diferentes editores de texto (como VS Code, WebStorm, etc.) e diferentes programadores que trabalham no mesmo projeto.
+## Tecnologias e bibliotecas utilizadas
 
-### Aqui está o que cada linha faz detalhadamente:
- 1. ``root = true``
- - **O que faz:** Diz ao editor que este é o ficheiro de configuração principal do projeto. O editor vai parar de procurar por outros ficheiros .editorconfig em pastas superiores do seu computador.
- 2. ``[*]``
- - **O que faz:** É um seletor. Significa que as regras escritas logo abaixo aplicam-se a todos os ficheiros do projeto (independente de serem .ts, .js, .json, .css, etc.).
- 3. ``indent_style = space``
- - **O que faz:** Define que a indentação (o recuo do código) deve ser feita usando espaços e não a tecla Tab. Se carregar na tecla Tab, o editor vai convertê-la automaticamente em espaços.
- 4. ``indent_size = 4``
- - **O que faz:** Define a quantidade de espaços para cada nível de indentação. Neste caso, cada vez que avança uma linha no código (dentro de uma função ou classe), o editor insere exatamente 4 espaços.
- 5. ``charset = utf-8``
- - **O que faz:** Define a codificação de caracteres dos ficheiros como UTF-8. Isto garante que acentos (como á, ç, õ) e emojis sejam exibidos corretamente em qualquer sistema operacional (Windows, Mac ou Linux) sem corromper o texto.
- 6. ``trim_trailing_whitespace = true``
- - **O que faz:** Remove automaticamente todos os espaços em branco inúteis que ficam no final das linhas de código quando guarda o ficheiro. Isto ajuda a manter o código limpo.
- 7. ``insert_final_newline = true``
- - **O que faz:** Garante que o editor adiciona sempre uma linha em branco no final de cada ficheiro ao guardar. Isto é uma boa prática padrão no Git e em sistemas POSIX para evitar avisos no terminal.
- 8. ``end_of_line = lf``
- - **O que faz:** Define o caractere de quebra de linha como LF (padrão do Linux/Mac). Evita conflitos quando uma pessoa trabalha no Windows (que usa CRLF) e outra no Mac, impedindo que o Git detete alterações invisíveis em todas as linhas do ficheiro.
+A seguir, estão as principais tecnologias e bibliotecas usadas no projeto, organizadas por tema para facilitar a leitura.
 
+### Ambiente e linguagem
 
-----
+- Node.js: ambiente de execução da aplicação backend. A versão recomendada para este projeto é a 20.x ou superior.
+- TypeScript: adiciona tipagem estática ao JavaScript, ajudando a evitar erros e a deixar o código mais seguro e fácil de manter.
+- Express: framework usado para criar a API REST, definir rotas e controlar requisições HTTP.
+- ts-node-dev: permite rodar a aplicação em modo de desenvolvimento com reinicialização automática sempre que o código muda.
+- tsconfig-paths: facilita os imports com aliases, deixando o código mais organizado.
 
-# Sobre o ESLint
+### Banco de dados
 
-rode este comando no terminal: - ``npm i -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin``
+- TypeORM: ORM utilizado para mapear objetos JavaScript/TypeScript para o banco de dados relacional.
+- pg: driver oficial do PostgreSQL, responsável por conectar a aplicação ao banco de dados.
+- reflect-metadata: habilita recursos importantes do TypeORM e da injeção de dependências.
+- PostgreSQL: banco de dados relacional usado para armazenar dados principais da aplicação, como usuários, clientes, produtos e pedidos.
 
-crie o aquivo ``.eslintrc`` e coloque isso:
-```js
-{
-    "root": true,
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-        "@typescript-eslint"
-    ],
-    "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/eslint-recommended"
-    ]
-}
+### Cache e performance
 
-```
+- Redis: sistema de armazenamento em memória usado para cache, controle de sessões temporárias e melhoria de desempenho.
+- ioredis: cliente Redis para Node.js, utilizado para comunicação com o Redis de forma simples e eficiente.
+- rate-limiter-flexible: protege a API contra excesso de requisições, evitando abuso ou sobrecarga.
 
-Após criar o arquivo ``.eslintrc`` crie o arquivo ``.eslintignore``, para o ESLint não alterar os arquivos ou pastas adicionadas no ``.eslintignore``
+### Autenticação, validação e arquivos
 
-```js
-node_modules
-dist
-build
-/*.js
+- bcrypt: responsável por criptografar senhas antes de armazená-las.
+- jsonwebtoken: implementa autenticação via JWT, permitindo identificar usuários logados.
+- celebrate: utilizada para validar dados recebidos nas requisições.
+- multer: usado para upload de arquivos, como imagens de avatar.
+- nodemailer: facilita o envio de e-mails, por exemplo para recuperação de senha.
+- dotenv: carrega variáveis de ambiente a partir de um arquivo .env.
+- cors: permite controlar o acesso da API a partir de diferentes origens frontend.
 
-```
-# erro
+### Organização e qualidade de código
 
-A explicação acima é da versão antiga do ESLint com isso eu tive que fazer algumas alterações.
+- tsyringe: biblioteca de injeção de dependências, usada para organizar a criação de serviços e reduzir o acoplamento entre classes.
+- jest e supertest: ferramentas de testes automatizados, usadas para validar endpoints e regras de negócio.
+- eslint e typescript-eslint: ajudam a manter o código padronizado e com menos problemas de qualidade.
+- uuid: gera identificadores únicos para registros.
+- date-fns: facilita o trabalho com datas e formatação de valores temporais.
 
-Apague os arquivos:
- - ``.eslintrc``
- - ``.eslintignore``
+## Como executar o projeto
 
-e crie o arquivo:
- - ``eslint.config.js``
+### Pré-requisitos
 
-dentro dele adicione este codigo :
+- Node.js instalado
+- npm ou yarn
+- banco de dados PostgreSQL disponível
+- Redis disponível, caso queira utilizar cache e rate limiting
 
-```js
-import eslint from "@eslint/js";
-import tseslint from "typescript-eslint";
+### Instalação
 
-export default tseslint.config(
-    eslint.configs.recommended,
-    ...tseslint.configs.recommended,
-    {
-        // .eslintignore (coloque as pastas a ignorar aqui)
-        ignores: ["build/", "dist/", "node_modules/"],
-    },
-);
-
+```bash
+npm install
 ```
 
-No arquivo ``tsconfig`` adicione o codigo abaixo depois do ``compilerOptions``
+### Executar em desenvolvimento
 
-```js
-   "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "build",
-    "dist",
-    "eslint.config.js"
-  ]
+```bash
+npm run dev
 ```
-e no ``package.json`` no comando ``lint`` mude para :
-```js
-    "lint": "eslint .",
+
+### Executar migrations
+
+Para criar uma nova migration:
+
+```bash
+npm run migration:create --name=exempleNameMigration
 ```
-----
 
-# Configuração do Ambiente de Desenvolvimento
-### Configuração do TypeScript
-Para melhorar a organização e facilitar as importações, configuramos o TypeScript com aliases:
+Para aplicar as migrations no banco de dados:
 
-No ``tsconfig.json``, configure:
-```js
-"paths": {
-          "@/*": ["./src/*"],
-          "@modules/*": ["./src/modules/*"],
-          "@shared/*": ["./src/shared/*"]
-      },
+```bash
+npm run migration:run
 ```
-No package.json mude para:
-``"dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/http/server.ts"``
 
-# para criar uma migration usando o pacote cross-var rode no terminal:
+### Executar testes
 
-``npm run migration:create --name=exempleNameMigration``
+```bash
+npm test
+```
 
-# Para aplicar o migration no banco de dados rode este comando no terminal:
+## Scripts disponíveis
 
-``npm run migration:run``
+- npm run dev: inicia a aplicação em modo de desenvolvimento.
+- npm run lint: executa a análise estática do código.
+- npm run migration:create: cria uma nova migration.
+- npm run migration:run: aplica as migrations.
+- npm run test: executa os testes automatizados.
 
+## Boas práticas presentes no projeto
 
-{
-    "customer_id": "1",
-    "products": [
-        {
-            "id": 1,
-            "quantity": 4
-        },
-        {
-            "id": 3,
-            "quantity": 2
-        }
-    ]
-}
+- organização em módulos;
+- uso de TypeScript para reduzir erros;
+- separação entre serviços, controllers, rotas e infraestrutura;
+- validação de dados nas requisições;
+- tratamento centralizado de erros;
+- uso de cache e proteção contra abuso;
+- testes automatizados para garantir maior confiabilidade.
 
-----
+## Observações adicionais
 
-# O Ratelimiter
-
-O Ratelimiter limita ex: quantas vezes uma pessoa pode enviar uma requisisao, ex: clicar no button enviar, se ele clicar 5 vezes em menos de 5sg o site trava ou bloqueia o button, depende do jeito que voce configurar.
+- O arquivo .editorconfig ajuda a manter a formatação do código consistente entre diferentes editores.
+- O ESLint é utilizado para manter o código mais limpo e padronizado.
+- O projeto é um ótimo exemplo de aplicação backend realista para estudar conceitos importantes de arquitetura e desenvolvimento com Node.js.
