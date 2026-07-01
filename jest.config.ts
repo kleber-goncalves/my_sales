@@ -12,6 +12,8 @@ const config: JestConfigWithTsJest = {
     // CORRIGIDO: Mapeamos o alias @/ diretamente aqui.
     // Isso remove a necessidade de ler o tsconfig.json e evita erros de sintaxe!
     moduleNameMapper: {
+        "^@shared/(.*)$": "<rootDir>/src/shared/$1",
+        "^@modules/(.*)$": "<rootDir>/src/modules/$1",
         "^@/(.*)$": "<rootDir>/src/$1",
     },
 

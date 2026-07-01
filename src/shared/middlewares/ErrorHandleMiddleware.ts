@@ -16,6 +16,16 @@ export default class ErrorHandleMiddleware {
             });
         }
 
+        // ADICIONE ESTE BLOCO: Se o erro for interno (500), cospe a stack real no terminal do Jest!
+        if (
+            process.env.NODE_ENV === "test" ||
+            process.env.NODE_ENV === "development"
+        ) {
+            console.error("=== DETALHE DO ERRO 500 ===");
+            console.error(error);
+            console.error("===========================");
+        }
+
         return res.status(500).json({
             type: "error",
             message: "Internal server error",

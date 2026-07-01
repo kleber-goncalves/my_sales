@@ -36,6 +36,6 @@
         "noImplicitAny": true
     },
 
-    "include": ["src/**/*", "jest.setup.ts"],
+    "include": ["src/**/*", "jest.setup.ts", "tests/**/*.ts"],
     "exclude": ["node_modules", "build", "dist", "eslint.config.js"]
 }

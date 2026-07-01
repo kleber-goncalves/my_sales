@@ -1,37 +1,35 @@
-import { Request, Response } from "express";
-import ListUsersService from "../../../services/ListUsersService";
-import CreateUserService from "../../../services/CreateUserService";
-import AppError from "@/shared/errors/AppError";
-import { instanceToInstance } from "class-transformer";
+import { Request, Response } from 'express';
+import { instanceToInstance } from 'class-transformer';
+import CreateUserService from '@modules/users/services/CreateUserService';
+import { container } from 'tsyringe';
+import ListUserService from '@/modules/users/services/ListUsersService';
 
-export default class UsersControllers {
-    // Controller de listar todos os usuarios
-    async index(request: Request, response: Response): Promise<Response> {
-        const listUsers = new ListUsersService();
-        const users = await listUsers.execute();
-        return response.json(instanceToInstance(users));
-    }
+export default class UsersController {
+  public async index(request: Request, response: Response): Promise<Response> {
+    const { page, skip, take } = request.query;
 
-    // Controller de criar um novo usuario
-    async create(request: Request, response: Response): Promise<Response> {
-        const { name, email, password } = request.body;
+    const listUser = container.resolve(ListUserService);
 
-        if (
-            name === undefined ||
-            name.trim() === "" ||
-            email === undefined ||
-            email.trim() === "" ||
-            password === undefined ||
-            password.trim() === ""
-        ) {
-            throw new AppError(
-                "Todos os campos (name, email e password) são obrigatórios e devem ser válidos",
-                400,
-            );
-        }
+    const users = await listUser.execute({
+      page: Number(page),
+      skip: Number(skip),
+      take: Number(take),
+    });
 
-        const createUser = new CreateUserService();
-        const user = await createUser.execute({ name, email, password });
-        return response.json(instanceToInstance(user));
-    }
+    return response.json(instanceToInstance(users));
+  }
+
+  public async create(request: Request, response: Response): Promise<Response> {
+    const { name, email, password } = request.body;
+
+    const createUser = container.resolve(CreateUserService);
+
+    const user = await createUser.execute({
+      name,
+      email,
+      password,
+    });
+
+    return response.json(instanceToInstance(user));
+  }
 }
